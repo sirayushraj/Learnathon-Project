@@ -1,0 +1,268 @@
+import React, { useState } from 'react';
+import { Brain, Sprout, Target, Zap } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+
+export function CropRecommendation() {
+  const [specificCrop, setSpecificCrop] = useState('');
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [recommendations, setRecommendations] = useState(null);
+  const [customRecommendations, setCustomRecommendations] = useState(null);
+
+  const handleAIRecommendation = () => {
+    setIsAnalyzing(true);
+    setTimeout(() => {
+      setRecommendations([
+        {
+          name: "Tomatoes",
+          suitability: 95,
+          reason: "Perfect NPK balance and temperature",
+          expectedYield: "25-30 tons/hectare",
+          season: "Spring-Summer"
+        },
+        {
+          name: "Corn",
+          suitability: 88,
+          reason: "Good nitrogen levels, adequate moisture",
+          expectedYield: "8-10 tons/hectare",
+          season: "Summer"
+        },
+        {
+          name: "Soybeans",
+          suitability: 82,
+          reason: "Suitable pH and organic matter",
+          expectedYield: "3-4 tons/hectare",
+          season: "Summer"
+        }
+      ]);
+      setIsAnalyzing(false);
+    }, 2000);
+  };
+
+  const handleCustomCropAnalysis = () => {
+    setIsAnalyzing(true);
+    setTimeout(() => {
+      setCustomRecommendations({
+        crop: specificCrop,
+        currentSuitability: 65,
+        improvements: [
+          {
+            issue: "Low Phosphorus",
+            solution: "Apply DAP fertilizer (50kg/hectare)",
+            impact: "+15% yield potential"
+          },
+          {
+            issue: "Slightly acidic soil",
+            solution: "Add lime (200kg/hectare)",
+            impact: "+10% nutrient uptake"
+          },
+          {
+            issue: "Low organic matter",
+            solution: "Apply compost (2 tons/hectare)",
+            impact: "+20% soil health"
+          }
+        ],
+        optimizedYield: "Expected 40% yield increase with improvements"
+      });
+      setIsAnalyzing(false);
+    }, 2000);
+  };
+
+  return (
+    <section id="crop-recommendation" className="py-16 bg-muted/30">
+      <div className="max-w-6xl mx-auto">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            AI-Powered Crop Recommendations
+          </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Get intelligent crop suggestions or optimize your preferred crops using Gemini AI
+          </p>
+        </div>
+
+        <Tabs defaultValue="ai-recommendations" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 mb-8">
+            <TabsTrigger value="ai-recommendations" className="flex items-center gap-2">
+              <Brain className="w-4 h-4" />
+              AI Recommendations
+            </TabsTrigger>
+            <TabsTrigger value="custom-crop" className="flex items-center gap-2">
+              <Target className="w-4 h-4" />
+              Optimize My Crop
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="ai-recommendations">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <Card className="shadow-lg">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Brain className="w-5 h-5 text-primary" />
+                    Smart Crop Analysis
+                  </CardTitle>
+                  <CardDescription>
+                    Based on your soil conditions, get AI-powered crop recommendations
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button 
+                    onClick={handleAIRecommendation}
+                    disabled={isAnalyzing}
+                    className="w-full"
+                    size="lg"
+                  >
+                    {isAnalyzing ? (
+                      <>
+                        <Brain className="w-4 h-4 mr-2 animate-pulse" />
+                        AI Analyzing...
+                      </>
+                    ) : (
+                      <>
+                        <Zap className="w-4 h-4 mr-2" />
+                        Get AI Recommendations
+                      </>
+                    )}
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="shadow-lg">
+                <CardHeader>
+                  <CardTitle>Recommended Crops</CardTitle>
+                  <CardDescription>
+                    Best crops for your soil conditions
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {recommendations ? (
+                    <div className="space-y-4">
+                      {recommendations.map((crop, index) => (
+                        <div key={index} className="border rounded-lg p-4 space-y-2">
+                          <div className="flex items-center justify-between">
+                            <h4 className="font-semibold flex items-center gap-2">
+                              <Sprout className="w-4 h-4 text-primary" />
+                              {crop.name}
+                            </h4>
+                            <Badge variant="secondary">{crop.suitability}% match</Badge>
+                          </div>
+                          <p className="text-sm text-muted-foreground">{crop.reason}</p>
+                          <div className="grid grid-cols-2 gap-2 text-xs">
+                            <div>
+                              <span className="font-medium">Yield:</span> {crop.expectedYield}
+                            </div>
+                            <div>
+                              <span className="font-medium">Season:</span> {crop.season}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-12 text-muted-foreground">
+                      <Brain className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                      <p>Click to get AI-powered crop recommendations</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="custom-crop">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <Card className="shadow-lg">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Target className="w-5 h-5 text-primary" />
+                    Crop Optimization
+                  </CardTitle>
+                  <CardDescription>
+                    Want to grow a specific crop? Get tailored recommendations
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="crop">Crop You Want to Grow</Label>
+                    <Input
+                      id="crop"
+                      placeholder="e.g., Wheat, Rice, Cotton..."
+                      value={specificCrop}
+                      onChange={(e) => setSpecificCrop(e.target.value)}
+                    />
+                  </div>
+                  
+                  <Button 
+                    onClick={handleCustomCropAnalysis}
+                    disabled={!specificCrop || isAnalyzing}
+                    className="w-full"
+                    size="lg"
+                  >
+                    {isAnalyzing ? (
+                      <>
+                        <Brain className="w-4 h-4 mr-2 animate-pulse" />
+                        Optimizing...
+                      </>
+                    ) : (
+                      <>
+                        <Target className="w-4 h-4 mr-2" />
+                        Optimize This Crop
+                      </>
+                    )}
+                  </Button>
+                </CardContent>
+              </Card>
+
+              <Card className="shadow-lg">
+                <CardHeader>
+                  <CardTitle>Optimization Results</CardTitle>
+                  <CardDescription>
+                    Recommendations to boost your crop production
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {customRecommendations ? (
+                    <div className="space-y-6">
+                      <div className="text-center p-4 bg-primary/10 rounded-lg">
+                        <h4 className="font-semibold text-lg mb-2">{customRecommendations.crop}</h4>
+                        <div className="text-2xl font-bold text-primary mb-1">
+                          {customRecommendations.currentSuitability}%
+                        </div>
+                        <p className="text-sm text-muted-foreground">Current Suitability</p>
+                      </div>
+
+                      <div className="space-y-3">
+                        <h5 className="font-semibold">Recommended Improvements:</h5>
+                        {customRecommendations.improvements.map((improvement, index) => (
+                          <div key={index} className="border rounded-lg p-3 space-y-1">
+                            <div className="font-medium text-sm">{improvement.issue}</div>
+                            <div className="text-sm text-muted-foreground">{improvement.solution}</div>
+                            <Badge variant="outline" className="text-xs">{improvement.impact}</Badge>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="p-4 bg-accent/10 rounded-lg">
+                        <p className="text-sm font-medium text-center">
+                          {customRecommendations.optimizedYield}
+                        </p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-center py-12 text-muted-foreground">
+                      <Target className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                      <p>Enter a crop name to get optimization recommendations</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </section>
+  );
+}

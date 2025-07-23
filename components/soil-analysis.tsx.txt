@@ -1,0 +1,191 @@
+import React, { useState } from 'react';
+import { Satellite, MapPin, RefreshCw, Thermometer, Droplets, Zap } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Progress } from '@/components/ui/progress';
+
+export function SoilAnalysis() {
+  const [location, setLocation] = useState('');
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+
+  const handleAnalysis = () => {
+    setIsAnalyzing(true);
+    setTimeout(() => {
+      setIsAnalyzing(false);
+      setShowResults(true);
+    }, 3000);
+  };
+
+  const soilData = {
+    nitrogen: 65,
+    phosphorus: 45,
+    potassium: 78,
+    ph: 6.8,
+    moisture: 42,
+    temperature: 24,
+    organicMatter: 3.2,
+    salinity: 0.8
+  };
+
+  return (
+    <section id="soil-analysis" className="py-20 bg-muted/30">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-foreground mb-4">
+            Live Satellite Soil Analysis
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Get real-time soil data from satellite imagery. No manual testing required - 
+            our AI automatically detects NPK levels, moisture, temperature, and more.
+          </p>
+        </div>
+
+        <div className="max-w-4xl mx-auto">
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Satellite className="h-6 w-6 mr-2 text-primary" />
+                Satellite Data Acquisition
+              </CardTitle>
+              <CardDescription>
+                Enter your farm location to get live satellite soil analysis
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex gap-4">
+                <div className="flex-1">
+                  <Label htmlFor="location">Farm Location (GPS Coordinates or Address)</Label>
+                  <Input
+                    id="location"
+                    placeholder="e.g., 40.7128, -74.0060 or 123 Farm Road, Iowa"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    className="mt-2"
+                  />
+                </div>
+                <div className="flex items-end">
+                  <Button 
+                    onClick={handleAnalysis}
+                    disabled={!location || isAnalyzing}
+                    className="bg-primary hover:bg-primary/90"
+                  >
+                    {isAnalyzing ? (
+                      <>
+                        <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                        Analyzing...
+                      </>
+                    ) : (
+                      <>
+                        <Satellite className="h-4 w-4 mr-2" />
+                        Analyze Soil
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {isAnalyzing && (
+            <Card className="mb-8">
+              <CardContent className="pt-6">
+                <div className="text-center">
+                  <Satellite className="h-12 w-12 text-primary mx-auto mb-4 animate-pulse" />
+                  <h3 className="text-lg font-semibold mb-2">Acquiring Satellite Data...</h3>
+                  <p className="text-muted-foreground mb-4">Processing real-time satellite imagery for your location</p>
+                  <Progress value={66} className="w-full max-w-md mx-auto" />
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {showResults && (
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Zap className="h-5 w-5 mr-2 text-accent" />
+                    Nutrient Levels
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {/* Nutrient Graphs */}
+                  <div className="space-y-4">
+                    {Object.entries(soilData).filter(([key]) => ['nitrogen', 'phosphorus', 'potassium'].includes(key)).map(([key, value]) => (
+                      <div key={key} className="space-y-2">
+                        <div className="flex justify-between items-center">
+                          <span className="capitalize font-medium">{key}</span>
+                          <span className="text-sm text-muted-foreground">{value}%</span>
+                        </div>
+                        <div className="w-full bg-muted rounded-full h-2">
+                          <div
+                            className="bg-primary h-2 rounded-full"
+                            style={{ width: `${value}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div>
+                    <div className="flex justify-between mb-2">
+                      <span className="font-medium">pH Level</span>
+                      <span className="text-sm text-muted-foreground">{soilData.ph}</span>
+                    </div>
+                    <Progress value={soilData.ph * 10} className="h-3" />
+                    <p className="text-sm text-muted-foreground mt-1">Optimal range for most crops: 6.0 - 7.5</p>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Thermometer className="h-5 w-5 mr-2 text-primary" />
+                    Environmental Conditions
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                    <div className="flex items-center">
+                      <Thermometer className="h-4 w-4 mr-2 text-primary" />
+                      <span>Temperature</span>
+                    </div>
+                    <span className="font-semibold">{soilData.temperature}°C</span>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                    <div className="flex items-center">
+                      <Droplets className="h-4 w-4 mr-2 text-accent" />
+                      <span>Soil Moisture</span>
+                    </div>
+                    <span className="font-semibold">{soilData.moisture}%</span>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                    <div className="flex items-center">
+                      <span className="w-4 h-4 mr-2 bg-primary rounded-full"></span>
+                      <span>Organic Matter</span>
+                    </div>
+                    <span className="font-semibold">{soilData.organicMatter}%</span>
+                  </div>
+                  
+                  <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
+                    <div className="flex items-center">
+                      <span className="w-4 h-4 mr-2 bg-accent rounded-full"></span>
+                      <span>Salinity</span>
+                    </div>
+                    <span className="font-semibold">{soilData.salinity} dS/m</span>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}

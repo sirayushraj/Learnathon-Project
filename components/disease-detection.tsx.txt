@@ -1,0 +1,239 @@
+import React, { useState } from 'react';
+import { Camera, AlertCircle, Shield, Pill, Upload } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Textarea } from '@/components/ui/textarea';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+
+export function DiseaseDetection() {
+  const [symptoms, setSymptoms] = useState('');
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [showDiagnosis, setShowDiagnosis] = useState(false);
+
+  const handleAnalysis = () => {
+    setIsAnalyzing(true);
+    setTimeout(() => {
+      setIsAnalyzing(false);
+      setShowDiagnosis(true);
+    }, 2500);
+  };
+
+  const diagnosis = {
+    disease: 'Late Blight (Phytophthora infestans)',
+    confidence: 92,
+    severity: 'High',
+    description: 'A serious fungal disease that affects tomatoes and potatoes, causing dark spots on leaves and stems.',
+    symptoms: [
+      'Dark brown/black spots on leaves',
+      'White fuzzy growth on leaf undersides',
+      'Rapid spreading of lesions',
+      'Stem darkening and collapse'
+    ],
+    treatments: [
+      {
+        type: 'Immediate Action',
+        treatment: 'Remove and destroy affected plants immediately',
+        urgency: 'Critical'
+      },
+      {
+        type: 'Fungicide',
+        treatment: 'Apply Copper-based fungicide (Bordeaux mixture)',
+        urgency: 'High'
+      },
+      {
+        type: 'Prevention',
+        treatment: 'Improve air circulation and reduce humidity',
+        urgency: 'Medium'
+      }
+    ],
+    products: [
+      { name: 'Bordeaux Mixture', dosage: '2-3g per liter', frequency: 'Every 7-10 days' },
+      { name: 'Copper Oxychloride', dosage: '2.5g per liter', frequency: 'Bi-weekly' },
+      { name: 'Mancozeb', dosage: '2g per liter', frequency: 'Weekly' }
+    ]
+  };
+
+  return (
+    <section id="disease-detection" className="py-20 bg-background">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-foreground mb-4">
+            AI Disease Detection & Treatment
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Describe the symptoms you're seeing on your plants, and our AI will identify the disease 
+            and recommend specific treatments and pesticides to save your crops.
+          </p>
+        </div>
+
+        <div className="max-w-4xl mx-auto">
+          <Card className="mb-8">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Camera className="h-6 w-6 mr-2 text-primary" />
+                Plant Disease Diagnosis
+              </CardTitle>
+              <CardDescription>
+                Describe the symptoms you're observing on your plants for AI-powered disease identification
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <Label htmlFor="symptoms">Plant Symptoms Description</Label>
+                <Textarea
+                  id="symptoms"
+                  placeholder="Describe what you're seeing: leaf color changes, spots, wilting, growth patterns, etc. Be as detailed as possible..."
+                  value={symptoms}
+                  onChange={(e) => setSymptoms(e.target.value)}
+                  className="mt-2 min-h-[120px]"
+                />
+              </div>
+              
+              <div className="flex items-center gap-4">
+                <Button variant="outline" className="flex-1">
+                  <Upload className="h-4 w-4 mr-2" />
+                  Upload Plant Photos (Optional)
+                </Button>
+                <Button 
+                  onClick={handleAnalysis}
+                  disabled={!symptoms || isAnalyzing}
+                  className="bg-primary hover:bg-primary/90 flex-1"
+                >
+                  {isAnalyzing ? (
+                    <>
+                      <AlertCircle className="h-4 w-4 mr-2 animate-spin" />
+                      Analyzing Symptoms...
+                    </>
+                  ) : (
+                    <>
+                      <Shield className="h-4 w-4 mr-2" />
+                      Diagnose Disease
+                    </>
+                  )}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {showDiagnosis && (
+            <div className="space-y-6">
+              <Card className="border-2 border-destructive/20">
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between">
+                    <span className="flex items-center">
+                      <AlertCircle className="h-5 w-5 mr-2 text-destructive" />
+                      Disease Identified
+                    </span>
+                    <Badge variant="destructive">
+                      {diagnosis.confidence}% Confidence
+                    </Badge>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div>
+                      <h3 className="text-2xl font-bold text-destructive mb-2">{diagnosis.disease}</h3>
+                      <p className="text-muted-foreground">{diagnosis.description}</p>
+                    </div>
+                    
+                    <div className="flex items-center gap-4">
+                      <Badge variant="destructive" className="text-sm">
+                        Severity: {diagnosis.severity}
+                      </Badge>
+                      <Badge variant="outline" className="text-sm">
+                        Requires Immediate Action
+                      </Badge>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <AlertCircle className="h-5 w-5 mr-2 text-destructive" />
+                      Confirmed Symptoms
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="space-y-2">
+                      {diagnosis.symptoms.map((symptom, i) => (
+                        <li key={i} className="flex items-start text-sm">
+                          <span className="w-2 h-2 bg-destructive rounded-full mt-2 mr-3 flex-shrink-0"></span>
+                          {symptom}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center">
+                      <Shield className="h-5 w-5 mr-2 text-accent" />
+                      Treatment Plan
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      {diagnosis.treatments.map((treatment, i) => (
+                        <div key={i} className="p-3 border rounded-lg">
+                          <div className="flex items-center justify-between mb-1">
+                            <h6 className="font-medium text-sm">{treatment.type}</h6>
+                            <Badge 
+                              variant={treatment.urgency === 'Critical' ? 'destructive' : treatment.urgency === 'High' ? 'default' : 'secondary'}
+                              className="text-xs"
+                            >
+                              {treatment.urgency}
+                            </Badge>
+                          </div>
+                          <p className="text-sm text-muted-foreground">{treatment.treatment}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Pill className="h-5 w-5 mr-2 text-primary" />
+                    Recommended Pesticides & Dosage
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    {diagnosis.products.map((product, i) => (
+                      <div key={i} className="flex items-center justify-between p-4 bg-muted rounded-lg">
+                        <div>
+                          <h6 className="font-semibold">{product.name}</h6>
+                          <p className="text-sm text-muted-foreground">Apply {product.frequency}</p>
+                        </div>
+                        <Badge variant="outline" className="text-sm">
+                          {product.dosage}
+                        </Badge>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="mt-6 p-4 bg-accent/10 rounded-lg border border-accent/20">
+                    <h6 className="font-semibold text-accent mb-2">⚠️ Important Safety Notes</h6>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      <li>• Always wear protective equipment when applying pesticides</li>
+                      <li>• Follow label instructions and local regulations</li>
+                      <li>• Do not harvest for 7-14 days after treatment</li>
+                      <li>• Apply during cool hours (early morning or evening)</li>
+                    </ul>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}

@@ -1,0 +1,80 @@
+import React from 'react';
+import { Satellite, Leaf, Brain, Mail, Phone, MapPin } from 'lucide-react';
+
+export function Footer() {
+  return (
+    <footer className="bg-card border-t border-border">
+      <div className="container mx-auto px-4 py-12">
+        <div className="grid md:grid-cols-4 gap-8">
+          <div>
+            <div className="flex items-center space-x-2 mb-4">
+              <div className="flex items-center space-x-1">
+                <Satellite className="h-6 w-6 text-primary" />
+                <Leaf className="h-6 w-6 text-accent" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-foreground">AgriSat Pro</h3>
+                <p className="text-xs text-muted-foreground">Satellite-Powered Agriculture</p>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Revolutionizing farming with satellite intelligence and AI-powered insights for maximum crop yield.
+            </p>
+          </div>
+          
+          <div>
+            <h4 className="font-semibold text-foreground mb-4">Features</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>Live Satellite Soil Analysis</li>
+              <li>AI Crop Recommendations</li>
+              <li>Disease Detection</li>
+              <li>Fertilizer Optimization</li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="font-semibold text-foreground mb-4">Technology</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li className="flex items-center">
+                <Satellite className="h-4 w-4 mr-2" />
+                Satellite API Integration
+              </li>
+              <li className="flex items-center">
+                <Brain className="h-4 w-4 mr-2" />
+                Google Gemini AI
+              </li>
+              <li className="flex items-center">
+                <Leaf className="h-4 w-4 mr-2" />
+                Real-time Analytics
+              </li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="font-semibold text-foreground mb-4">Contact</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li className="flex items-center">
+                <Mail className="h-4 w-4 mr-2" />
+                support@agrisatpro.com
+              </li>
+              <li className="flex items-center">
+                <Phone className="h-4 w-4 mr-2" />
+                +1 (555) 123-4567
+              </li>
+              <li className="flex items-center">
+                <MapPin className="h-4 w-4 mr-2" />
+                Agricultural Tech Hub
+              </li>
+            </ul>
+          </div>
+        </div>
+        
+        <div className="border-t border-border mt-8 pt-8 text-center">
+          <p className="text-sm text-muted-foreground">
+            © 2024 AgriSat Pro. Empowering farmers with satellite intelligence and AI technology.
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}

@@ -1,0 +1,22 @@
+import React from 'react';
+import { Header } from '@/components/header';
+import { HeroSection } from '@/components/hero-section';
+import { SoilAnalysis } from '@/components/soil-analysis';
+import { CropRecommendations } from '@/components/crop-recommendations';
+import { SpecificCropAdvice } from '@/components/specific-crop-advice';
+import { DiseaseDetection } from '@/components/disease-detection';
+import { Footer } from '@/components/footer';
+
+export default function AgriculturalPlatform() {
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <HeroSection />
+      <SoilAnalysis />
+      <CropRecommendations />
+      <SpecificCropAdvice />
+      <DiseaseDetection />
+      <Footer />
+    </div>
+  );
+}

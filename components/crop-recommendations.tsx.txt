@@ -1,0 +1,135 @@
+import React, { useState } from 'react';
+import { Brain, Leaf, TrendingUp, Star, ChevronRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+
+export function CropRecommendations() {
+  const [showRecommendations, setShowRecommendations] = useState(false);
+
+  const recommendations = [
+    {
+      crop: 'Corn (Maize)',
+      suitability: 95,
+      expectedYield: '8-10 tons/hectare',
+      season: 'Spring-Summer',
+      reasons: ['High potassium levels ideal', 'Good soil temperature', 'Adequate moisture'],
+      fertilizers: ['Urea (46-0-0)', 'DAP (18-46-0)']
+    },
+    {
+      crop: 'Soybeans',
+      suitability: 88,
+      expectedYield: '3-4 tons/hectare',
+      season: 'Spring-Summer',
+      reasons: ['Good nitrogen fixation potential', 'Optimal pH range', 'Suitable moisture'],
+      fertilizers: ['Phosphate fertilizer', 'Potash']
+    },
+    {
+      crop: 'Wheat',
+      suitability: 82,
+      expectedYield: '5-6 tons/hectare',
+      season: 'Fall-Spring',
+      reasons: ['Good soil structure', 'Adequate nutrients', 'Suitable climate'],
+      fertilizers: ['NPK (20-20-20)', 'Ammonium sulfate']
+    }
+  ];
+
+  return (
+    <section id="recommendations" className="py-20 bg-background">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-foreground mb-4">
+            AI-Powered Crop Recommendations
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+            Based on your soil analysis, our Gemini AI recommends the best crops for your land conditions, 
+            complete with yield predictions and fertilizer requirements.
+          </p>
+          
+          {!showRecommendations && (
+            <Button 
+              onClick={() => setShowRecommendations(true)}
+              size="lg"
+              className="bg-primary hover:bg-primary/90"
+            >
+              <Brain className="h-5 w-5 mr-2" />
+              Generate AI Recommendations
+            </Button>
+          )}
+        </div>
+
+        {showRecommendations && (
+          <div className="max-w-6xl mx-auto">
+            <div className="mb-8 p-6 bg-primary/10 rounded-lg border border-primary/20">
+              <div className="flex items-center mb-4">
+                <Brain className="h-6 w-6 text-primary mr-2" />
+                <h3 className="text-xl font-semibold">Gemini AI Analysis Complete</h3>
+              </div>
+              <p className="text-muted-foreground">
+                Based on your soil conditions (N: 65%, P: 45%, K: 78%, pH: 6.8), here are the top crop recommendations 
+                optimized for maximum yield and profitability.
+              </p>
+            </div>
+
+            <div className="grid lg:grid-cols-3 gap-6">
+              {recommendations.map((rec, index) => (
+                <Card key={index} className="relative overflow-hidden hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/50">
+                  <div className="absolute top-4 right-4">
+                    <Badge variant="secondary" className="bg-primary text-primary-foreground">
+                      <Star className="h-3 w-3 mr-1" />
+                      {rec.suitability}% Match
+                    </Badge>
+                  </div>
+                  
+                  <CardHeader>
+                    <CardTitle className="flex items-center justify-between">
+                      {rec.crop}
+                      <TrendingUp className="h-5 w-5 text-accent" />
+                    </CardTitle>
+                    <CardDescription>
+                      Expected Yield: {rec.expectedYield}
+                    </CardDescription>
+                  </CardHeader>
+                  
+                  <CardContent className="space-y-4">
+                    <div>
+                      <h4 className="font-semibold mb-2 flex items-center">
+                        <Leaf className="h-4 w-4 mr-1 text-accent" />
+                        Why This Crop?
+                      </h4>
+                      <ul className="text-sm text-muted-foreground space-y-1">
+                        {rec.reasons.map((reason, i) => (
+                          <li key={i} className="flex items-center">
+                            <ChevronRight className="h-3 w-3 mr-1 text-primary" />
+                            {reason}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    
+                    <div>
+                      <h4 className="font-semibold mb-2">Recommended Fertilizers</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {rec.fertilizers.map((fertilizer, i) => (
+                          <Badge key={i} variant="outline" className="text-xs">
+                            {fertilizer}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="pt-2">
+                      <Badge variant="secondary" className="w-full justify-center">
+                        Best Season: {rec.season}
+                      </Badge>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
