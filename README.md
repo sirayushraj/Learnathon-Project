@@ -1,5 +1,7 @@
 <h1 align="center">Hi 👋, I'm TEAM(NEW_1)</h1>
 
+**MEMBERS:**
+
 - KAUSHIK MOHANTY:  **24CSEAIML035**
 
 - AYUSH RAJ:        **24CSEAIML048**
