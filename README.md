@@ -1,6 +1,4 @@
 <h1 align="center">Hi 👋, I'm TEAM(NEW_1)</h1>
-<p align="left"> <a href="https://github.com/ryo-ma/github-profile-trophy"><img src="https://github-profile-trophy.vercel.app/?username=sirayushraj" alt="sirayushraj" /></a> </p>
-
 - KAUSHIK MOHANTY **24CSEAIML035**
 
 - AYUSH RAJ **24CSEAIML048**
