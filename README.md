@@ -1,9 +1,10 @@
 <h1 align="center">Hi 👋, I'm TEAM(NEW_1)</h1>
-- KAUSHIK MOHANTY **24CSEAIML035**
 
-- AYUSH RAJ **24CSEAIML048**
+- KAUSHIK MOHANTY:  **24CSEAIML035**
 
-- PIYUSH KUMAR **24CSEAIML002**
+- AYUSH RAJ:        **24CSEAIML048**
+
+- PIYUSH KUMAR:     **24CSEAIML002**
 
 - Installation Steps [# Clone the repo git clone https://github.com/sirayushraj/Learnathon-Project.git cd Learnathon-Project # Backend setup (if applicable) cd backend npm install # or mvn install / dotnet restore cp .env.example .env # Define DB_CONN, AUTH_KEYS, etc. # Frontend setup cd ../frontend npm install cp .env.example .env # Define API_ENDPOINT, etc. # Start both servers (example using concurrently) cd .. npm install npm run start # or use docker-compose up --build](# Clone the repo git clone https://github.com/sirayushraj/Learnathon-Project.git cd Learnathon-Project # Backend setup (if applicable) cd backend npm install # or mvn install / dotnet restore cp .env.example .env # Define DB_CONN, AUTH_KEYS, etc. # Frontend setup cd ../frontend npm install cp .env.example .env # Define API_ENDPOINT, etc. # Start both servers (example using concurrently) cd .. npm install npm run start # or use docker-compose up --build)
 
